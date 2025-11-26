@@ -1,0 +1,24 @@
+name: Secure CI Pipeline
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Dependency scan
+        run: npm audit --production
+
+      - name: Security scan
+        run: |
+          pip install bandit
+          bandit -r .
+
+      - name: Build
+        run: npm run build
