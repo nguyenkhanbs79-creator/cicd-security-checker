@@ -1,0 +1,25 @@
+# Secure GitLab CI pipeline example with dependency and security scans
+stages:
+  - test
+  - build
+
+dependency-scan:
+  stage: test
+  image: node:18
+  script:
+    - npm ci
+    - npm audit --production
+
+sast-scan:
+  stage: test
+  image: python:3.11
+  script:
+    - pip install bandit
+    - bandit -r .
+
+build-job:
+  stage: build
+  image: node:18
+  script:
+    - npm ci
+    - npm run build

